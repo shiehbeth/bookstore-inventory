@@ -1,0 +1,5 @@
+.class
+### VS Code ###
+.vscode/
+### Mac OS ###
+.DS_Store
