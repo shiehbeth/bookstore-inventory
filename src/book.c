@@ -2,8 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include "book.h"
+#include "const.h"
 
-book* createBook(char* title, char* author, int year, int isbn) {
+const int MAX_CHAR_LENGTH = 50;
+
+book* createBook(char* title, char* author, int year, long isbn) {
     // dynamically allocate memory
     book* node = (book*) malloc(sizeof(book));
 
@@ -18,6 +21,7 @@ book* createBook(char* title, char* author, int year, int isbn) {
     node->pubYear = year;
     node->ISBN = isbn;
     node->nextBook = NULL;
+    node->prevBook = NULL;
     return node;
 }
 

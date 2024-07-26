@@ -2,7 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include "book.h"
-#include "bookqueue.h"
+#include "bookQueue.h"
+#include "const.h"
+
 
 queue* create_queue() {
     queue* q = (queue*)malloc(sizeof(queue));
@@ -15,7 +17,7 @@ queue* create_queue() {
     return q;
 }
 
-book* addBookToQueue(queue*q, book* b) {
+void addBookToQueue(queue*q, book* b) {
     if (q->size == 10) {
         removeBookFromQueue(q);
     }
@@ -24,6 +26,7 @@ book* addBookToQueue(queue*q, book* b) {
     }
     else {
         q->rear->nextBook = b;
+        b->prevBook = q->rear;
         q->rear = b;
     }
     q->size += 1;
@@ -38,14 +41,17 @@ book* removeBookFromQueue(queue* q) {
     if (q->front == NULL) {
         q->rear = NULL;
     }
+    else {
+        q->front->prevBook = NULL;
+    }
+    tmp->nextBook = NULL;
     q->size -= 1;
-
     return tmp;
 }
 
 void free_queue(queue* q) {
     while (q->front != NULL) {
-        book* tmp = dequeue(q);
+        book* tmp = removeBookFromQueue(q);
         free(tmp);
     }
     free(q);

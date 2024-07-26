@@ -1,17 +1,17 @@
 #ifndef BOOK_H
 #define BOOK_H
+#include "const.h"
 
-const int MAX_CHAR_LENGTH = 50;
-
-typedef struct book_struct {
-    char bookTitle[MAX_CHAR_LENGTH];
-    char bookAuthor[MAX_CHAR_LENGTH];
+typedef struct book {
+    char bookTitle[50];
+    char bookAuthor[50];
     int pubYear;
-    int ISBN;
-    book* nextBook;
+    long ISBN;
+    struct book* nextBook;
+    struct book* prevBook;
 } book;
 
-book* createBook(char* title, char* author, int year, int isbn);
+book* createBook(char* title, char* author, int year, long isbn);
 void freeBooks(book* head);
 
 #endif
