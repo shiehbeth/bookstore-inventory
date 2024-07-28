@@ -1,12 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "book.h"
-#include "const.h"
+#include "../include/book.h"
+#include "../include/const.h"
+# include <mysql/mysql.h>
 
 const int MAX_CHAR_LENGTH = 50;
 
-book* createBook(char* title, char* author, int year, long isbn) {
+book* createBook(char* title, char* author, int year, char *isbn, int rating) {
     // dynamically allocate memory
     book* node = (book*) malloc(sizeof(book));
 
@@ -19,9 +20,10 @@ book* createBook(char* title, char* author, int year, long isbn) {
     strcpy(node->bookTitle, title);
     strcpy(node->bookAuthor, author);
     node->pubYear = year;
-    node->ISBN = isbn;
+    strcpy(node->ISBN, isbn);
+    node->rating = rating;
     node->nextBook = NULL;
-    node->prevBook = NULL;
+    // node->prevBook = NULL;
     return node;
 }
 
@@ -33,3 +35,5 @@ void freeBooks(book* head) {
         free(tmp);
     }
 }
+
+

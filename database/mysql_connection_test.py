@@ -38,7 +38,7 @@ def describe_table(host_name, user_name, user_password, db_name, table_name):
 # Specify your own database credentials
 host_name = "127.0.0.1"
 user_name = "root"
-user_password = "xiaoxueFang811819"
+user_password = "Shirley*!(*!!"
 db_name = "BOOKDB"
 table_name = "BOOK_INFO"
 

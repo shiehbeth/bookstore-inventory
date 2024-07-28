@@ -3,15 +3,16 @@
 #include "const.h"
 
 typedef struct book {
-    char bookTitle[50];
+    char bookTitle[256];
     char bookAuthor[50];
     int pubYear;
-    long ISBN;
+    char ISBN[20];
+    int rating;
     struct book* nextBook;
-    struct book* prevBook;
+    // struct book* prevBook;
 } book;
 
-book* createBook(char* title, char* author, int year, long isbn);
+book* createBook(char* title, char* author, int year, char *isbn, int rating);
 void freeBooks(book* head);
 
 #endif
