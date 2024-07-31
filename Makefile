@@ -2,9 +2,13 @@
 CC = gcc
 CFLAGS = -I./include -Wall -g
 
+# Directories
+SDIR = src
+ODIR = obj
+
 # Source files
-SRC = src/book.c src/bookQueue.c src/DLL.c src/inventory.c src/search.c src/user.c
-OBJ = $(SRC:.c=.o)
+SRC = main.c book.c bookQueue.c DLL.c inventory.c search.c user.c
+OBJ = $(addprefix $(ODIR)/, $(SRC:.c=.o))
 
 # Executable
 EXEC = main
@@ -13,21 +17,27 @@ EXEC = main
 all: $(EXEC)
 
 # Linking
-$(EXEC): $(OBJ) main.o
+$(EXEC): $(OBJ)
 	$(CC) -o $@ $^
 
+# Ensure the object directory exists
+$(ODIR):
+	@mkdir -p $(ODIR)
+
 # Compiling source files
-%.o: %.c
+$(ODIR)/%.o: $(SDIR)/%.c | $(ODIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-# Clean target
+# Cleaning objects and executable
 clean:
-	rm -f $(OBJ) main.o $(EXEC)
+	@rm -rf $(ODIR) $(EXEC)
+	@echo "Object files deleted."
+	@echo "Executable deleted."
 
-# Dependencies
-main.o: main.c $(wildcard include/*.h)
-src/book.o: src/book.c include/book.h
-src/bookQueue.o: src/bookQueue.c include/bookQueue.h include/book.h
-src/DLL.o: src/DLL.c include/DLL.h include/book.h
-src/inventory.o: src/inventory.c include/inventory.h include/book.h
-src/search.o: src/search.c
+fclean: clean
+	@rm -rf $(EXEC)
+	@echo "Executable deleted."
+
+re: fclean all
+
+.PHONY: all clean fclean re
