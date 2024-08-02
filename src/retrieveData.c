@@ -1,11 +1,4 @@
-# include <stdio.h>
-# include <stdlib.h>
-# include <ctype.h>
-# include <mysql/mysql.h>
-# include <stdbool.h>
-# include <string.h>
-# include "../include/book.h"
-# include "../include/linkedList.h"
+# include "../include/header.h"
 
 // gcc -Wall -Wextra  -std=c99 -pedantic -fsanitize=address -g -lmysqlclient retrieveData.c  
 int const MAXLEN = 50;
@@ -23,6 +16,7 @@ int convertToInt(char str[]) {
     }
     return num;
 }
+
 void finish_with_error(MYSQL *con) {
   fprintf(stderr, "%s\n", mysql_error(con));
   mysql_close(con);
@@ -37,7 +31,7 @@ void display(book **historyBooks) {
     }
 }
 //  LinkedList *retrieveFakeUserInfo(LinkedList *historyBooks) {
-book **retrieveFakeUserInfo() {
+book **retrieveFakeUserInfo(LinkedList *top5Books) {
     MYSQL *con = mysql_init(NULL);
 
     if (con == NULL) {
@@ -67,6 +61,7 @@ book **retrieveFakeUserInfo() {
     book **historyBooks = malloc(sizeof(book *) * rowCount);
     int rowIndex = 0;
     MYSQL_ROW row;
+    int count = 0;
     while ((row = mysql_fetch_row(result))) {
         MYSQL_RES *res = NULL;
         if (row[0] != NULL){
@@ -89,16 +84,28 @@ book **retrieveFakeUserInfo() {
                 // printf("%s, %s, %s, %s, %s\n", bookinfo[1],bookinfo[2], bookinfo[3], bookinfo[0],row[1]);
                 int year = convertToInt(bookinfo[3]);
                 int rating = convertToInt(row[1]);
+                
+                if(rating > 0) count++;
                 historyBooks[rowIndex++] = createBook(bookinfo[1],bookinfo[2], year, bookinfo[0],rating);
+                // if (top5Books->size < top5Books->max && rating > 0) {
+                //     insertByRating(top5Books, historyBooks[rowIndex - 1]);
+                //     // displayBooks(top5Books);
+                // } else if(top5Books->size == top5Books->max && rating > top5Books->tail->rating) {
+                //     insertByRating(top5Books, historyBooks[rowIndex - 1]);
+                //     updateList(top5Books, historyBooks[rowIndex - 1]);
+                // }
+                // displayBooks(top5Books);
                 // addBook(historyBooks, createBook(bookinfo[1],bookinfo[2], year, bookinfo[0],rating));
                 // printf("%s\n", historyBooks[rowIndex - 1]->ISBN);
             }
         }
+        // printf("the rating is greater than 0: ", count);
         if (res != NULL){
             mysql_free_result(res);
         }
+        
     }
-
+    printf("the rating is greater than 0: %d\n", count);
     mysql_free_result(result);
     mysql_close(con);
     return historyBooks;
@@ -122,7 +129,9 @@ void printWelcomeInfo() {
     printf("Please enter an operation:                                \n");
     printf(" - Add:    Find a book in the inventory.                  \n");
     printf(" - Show:   Display all books in your personal inventory.  \n");
-    printf(" - Search: Search if a book is in your personal inventory.\n");
+    printf(" - Search:                                                \n");
+    printf("      -1. Personal Inventory                              \n");
+    printf("      -2. Book InventorySearch                            \n");
     printf(" - Done:   Quit the book management system.               \n");
     printf("**********************************************************\n");
     printf("*               Happy Reading & Managing!                *\n");
@@ -140,37 +149,45 @@ void toLowercase(char *str) {
 }
 
 
-int main (void) {
-    bool done = true;
-    char inputStr[MAXLEN];
-    // LinkedList *historyBooks = (LinkedList *)malloc(sizeof(LinkedList));
-    // historyBooks->head = NULL;
-    // historyBooks->tail = NULL;
-    // historyBooks->size = 0;
-    // search
-    book **historyBooks = NULL;
-    printWelcomeInfo();
-    historyBooks = retrieveFakeUserInfo();
-    // loadingUserInfo();
-    // printf("the length of the booklist: %d\n", lenOfbooks(historyBooks));
-    display(historyBooks);
-    // displayBooks(historyBooks);
-    freeHistoryBooks(historyBooks);
-    while (!done) {
-        printf("What would you like to do?\n");
-        scanf("%s", inputStr);
-        toLowercase(inputStr);
-        if (strcmp(inputStr, "search") == 0) {
-            printf("search\n");
-        } else if (strcmp(inputStr, "add") == 0) {
-            printf("add");
-        } else if (strcmp(inputStr, "show") == 0) {
-            printf("show");
-        } else if (strcmp(inputStr, "done") == 0) {
-            done = true;
-        } else {
-            printf("Invalid Operation. Please try again.\n");
-        }
-    }
-    return 0;
-}
+// int main (void) {
+//     bool done = true;
+//     char inputStr[MAXLEN];
+//     LinkedList *Top5Books = (LinkedList *)malloc(sizeof(LinkedList));
+//     Top5Books->head = NULL;
+//     Top5Books->tail = NULL;
+//     Top5Books->max = 5;
+//     Top5Books->size = 0;
+//     // history books is an array;
+//     book **historyBooks = NULL;
+//     printWelcomeInfo();
+//     historyBooks = retrieveFakeUserInfo(Top5Books);
+//     // loadingUserInfo();
+//     // printf("the length of the booklist: %d\n", lenOfbooks(historyBooks));
+
+//     displayBooks(Top5Books);
+//     // memoryHandler(Top5Books);
+//     printf("=================================================\n");
+//     display(historyBooks);
+//     freeHistoryBooks(historyBooks);
+    
+    
+//     while (!done) {
+//         printf("What would you like to do?\n");
+//         scanf("%s", inputStr);
+//         toLowercase(inputStr);
+//         if (strcmp(inputStr, "search") == 0) {
+//             //1.personalSearch()
+//             //2.search()
+//             printf("search\n");
+//         } else if (strcmp(inputStr, "add") == 0) {
+//             printf("add");
+//         } else if (strcmp(inputStr, "show") == 0) {
+//             printf("show");
+//         } else if (strcmp(inputStr, "done") == 0) {
+//             done = true;
+//         } else {
+//             printf("Invalid Operation. Please try again.\n");
+//         }
+//     }
+//     return 0;
+// }
