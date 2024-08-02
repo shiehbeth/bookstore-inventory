@@ -30,14 +30,16 @@ void addBook(LinkedList *history, book *newBook) {
 void displayBooks(LinkedList *bookList) {
     if (bookList != NULL) {
         book *curNode = bookList->head;
-        printf("The history books: \n");
+       
         while (curNode != NULL) {
             printf("ISBN: %-15s Title: %-50s\n", curNode->ISBN, curNode->bookTitle);
             printf("Author: %-25s Rating: %-49d\n" ,curNode->bookAuthor, curNode->rating);
             printf("----------------------------------------------------------------------\n");
             curNode = curNode->nextBook;
         }
-        printf("-------------------------------------------------------------------------------\n");
+        
+    } else {
+        printf("There is nothing in the book shelf\n");
     }
 }
 
@@ -57,23 +59,22 @@ int lenOfbooks(LinkedList *booklist) {
 
 // }
 
-void updateList(LinkedList *booklist, book *newBook) {
-    printf("Updated\n");
-    printf("The %d times, Before: \n", count);
-    // displayBooks(booklist);
+void updateList(LinkedList *booklist) {
     book *curNode = booklist->head;
+    book *tmp = NULL;
     int i = 0;
-    while(i < booklist->size) {
+    while (booklist->size > booklist->max && i < booklist->max) {
+        tmp = curNode;
         curNode = curNode->nextBook;
         i++;
     }
-    book *tmp = curNode->nextBook;
-    curNode->nextBook = NULL;
-    booklist->tail = curNode;
-    booklist->tail->nextBook = NULL;
-    booklist->size--;
-    // printf("After: \n");
-    // displayBooks(booklist);
+    tmp->nextBook = NULL;
+    booklist->tail = tmp;
+    // while (curNode != NULL) {
+    //     tmp = curNode;
+    //     curNode = curNode->nextBook;
+    //     free(tmp);
+    // }
 }
 
 void insertByRating(LinkedList *booklist, book* newBook) {
@@ -92,21 +93,17 @@ void insertByRating(LinkedList *booklist, book* newBook) {
             newBook->nextBook = booklist->head;
             booklist->head = newBook;
             booklist->size++;
-        } else if (booklist->tail->rating > rating) {
+        } else if (booklist->tail->rating >= rating) {
             booklist->tail->nextBook = newBook;
             booklist->tail = newBook;
             booklist->size++;
         } else {
-            while (curNode != NULL) {
+            while (curNode != NULL && curNode->rating > rating) {
                 tmp = curNode;
-                if (curNode->rating < rating) {
-                    tmp->nextBook = newBook;
-                    newBook->nextBook = curNode;
-                    booklist->size++;
-                    break;
-                } 
                 curNode = curNode->nextBook;
             }
+            tmp->nextBook = newBook;
+            newBook->nextBook = curNode;
         }
     }
 }

@@ -9,8 +9,9 @@
 # include <string.h>
 # include "book.h"
 # include "linkedList.h"
+# include "user.h"
 
 void toLowercase(char *str);
 void finish_with_error(MYSQL *con);
-
+void inventorySearch();
 #endif

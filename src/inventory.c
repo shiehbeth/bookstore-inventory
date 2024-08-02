@@ -33,10 +33,11 @@ void searchBy(char *keyword, char *value) {
             printf("%d %s %s %s %s \n", count++, bookinfo[1],bookinfo[2], bookinfo[3], bookinfo[0]);
         }
     }
-    
+    mysql_free_result(res);
+    mysql_close(con);
 }
 
-void search() {
+void inventorySearch() {
     printf("Which key word would like to use? ");
     char inputStr[20];
     scanf("%s", inputStr);
@@ -80,6 +81,6 @@ void search() {
     }
 }
 
-int main(void) {
-    search();
-}
+// int main(void) {
+//     search();
+// }
