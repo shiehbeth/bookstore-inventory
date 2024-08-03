@@ -65,7 +65,7 @@ void inventorySearch(User *user) {
         scanf("%s", inputISBN);
         tmpBookShelf = searchBy("ISBN", inputISBN, &size);
     } else if (strcmp(inputStr, "title") == 0) {
-        char inputTitle[20];
+        char inputTitle[256];
         printf("What title is?");
         getchar();
         printf("Which author do you want to search for? ");

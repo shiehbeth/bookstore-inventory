@@ -1,18 +1,6 @@
 #ifndef USER_H
 #define USER_H
-// #include "bookQueue.h"
-// #include "DLL.h"
-// #include "const.h"
-// # include "book.h"
-// # include "linkedList.h"
 
-// typedef struct user_struct {
-//     char firstName[MAX_CHAR_LENGTH];
-//     char lastName[MAX_CHAR_LENGTH];
-//     int userID;
-//     queue* wishList;
-//     DLL* booksRead;
-// } user;
 typedef struct book {
     char bookTitle[256];
     char bookAuthor[50];
@@ -20,7 +8,6 @@ typedef struct book {
     char ISBN[20];
     int rating;
     struct book* nextBook;
-    // struct book* prevBook;
 } book;
 
 typedef struct LinkedList_t {
