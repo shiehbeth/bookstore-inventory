@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../include/book.h"
-#include "../include/bookQueue.h"
 #include "../include/const.h"
 
 int main() {

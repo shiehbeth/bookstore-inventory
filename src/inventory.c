@@ -1,7 +1,7 @@
 # include "../include/header.h"
 
-void saveBookToReadlist(LinkedList *readlist, book **tmpbooks, int index) {
-    book *newBook = createBook(tmpbooks[index]->bookAuthor, tmpbooks[index]->bookTitle, tmpbooks[index]->pubYear, tmpbooks[index]->ISBN, 0);
+void saveBookToReadlist(LinkedList *readlist, book *tmpbooks) {
+    book *newBook = createBook(tmpbooks->bookAuthor, tmpbooks->bookTitle, tmpbooks->pubYear, tmpbooks->ISBN, 0);
     addBook(readlist, newBook);
 }
 
@@ -102,11 +102,12 @@ void inventorySearch(User *user) {
     //
     int indexOfBook;
     scanf("%d", &indexOfBook);
-    HashSet* set = createHashSet(10);
+    // user->readingList
+    HashSet* set = createHashSet(user->readingList);
     while (indexOfBook > 0 && indexOfBook <= size) {
-        if (contains(set, indexOfBook) == 0) {
-            saveBookToReadlist(user->readingList, tmpBookShelf,indexOfBook - 1);
-            addElementToSet(set, indexOfBook);
+        if (containsElement(set, tmpBookShelf[indexOfBook - 1]->ISBN) == 0) {
+            saveBookToReadlist(user->readingList, tmpBookShelf[indexOfBook - 1]);
+            addElement(set, tmpBookShelf[indexOfBook - 1]->ISBN);
         } else {
             printf("The book already in your reading list, CAN NOT ADD\n");
         }
@@ -116,13 +117,4 @@ void inventorySearch(User *user) {
     if (tmpBookShelf != NULL)
         freeHistoryBooks(tmpBookShelf, size);
     freeHashSet(set);
-    // int sizeOfTmpBookShelf = sizeof(tmpBookShelf) / sizeof(book);
-    // printf("The size of the books list%d\n", sizeOfTmpBookShelf);
-    // if (indexOfBook <= sizeOfTepBookShelf)
-    // displayBooks(user->readingList);
-
 }
-
-// int main(void) {
-//     search();
-// }
