@@ -1,9 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "../include/book.h"
-#include "../include/const.h"
-# include <mysql/mysql.h>
+# include "../include/header.h"
 
 const int MAX_CHAR_LENGTH = 50;
 

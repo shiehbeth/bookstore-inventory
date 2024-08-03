@@ -23,7 +23,7 @@ void finish_with_error(MYSQL *con) {
   exit(1);
 }
 
-void display(book **historyBooks) {
+void display(book **historyBooks, int rowCount) {
     printf("=============================HISTORY BOOKS=============================\n");
    
     for (int i = 0; i < rowCount; ++i) {
@@ -64,7 +64,6 @@ book **retrieveFakeUserInfo(LinkedList *top5Books) {
     book **historyBooks = malloc(sizeof(book *) * rowCount);
     int rowIndex = 0;
     MYSQL_ROW row;
-    int count = 0;
     while ((row = mysql_fetch_row(result))) {
         MYSQL_RES *res = NULL;
         if (row[0] != NULL){
@@ -103,7 +102,7 @@ book **retrieveFakeUserInfo(LinkedList *top5Books) {
     return historyBooks;
 }
 
-void freeHistoryBooks(book **historyBooks) {
+void freeHistoryBooks(book **historyBooks, int rowCount) {
     for (int i = 0; i < rowCount; ++i) {
         free(historyBooks[i]);
     }
@@ -149,11 +148,20 @@ LinkedList *initLinkedList() {
     return Top5Books;
 }
 
+LinkedList *initReadList() {
+    LinkedList *readList = (LinkedList *)malloc(sizeof(LinkedList));
+    readList->head = NULL;
+    readList->tail = NULL;
+    readList->max = 10;
+    readList->size = 0;
+    return readList;
+}
+
 User *initUser() {
     User *user = (User *)malloc(sizeof(User));
     strcpy(user->ID, "276925");
     strcpy(user->name, "Faked User");
-    user->readingList = NULL;
+    user->readingList = initReadList();
     user->TopFiveFavoriateBooks = initLinkedList();
     user->historyBook = retrieveFakeUserInfo(user->TopFiveFavoriateBooks);
     return user;
@@ -163,7 +171,7 @@ void show(User *user) {
     printf("**********************************************************\n");
     printf("*                      Hello %s!                 *\n", user->name);
     printf("**********************************************************\n");
-    display(user->historyBook);
+    display(user->historyBook, rowCount);
     printf("==============================TOP 5 BOOKS===============================\n");
     displayBooks(user->TopFiveFavoriateBooks);
     printf("========================================================================\n\n");
@@ -190,7 +198,7 @@ int main (void) {
             scanf("%d", &inputNum);
             switch (inputNum) {
                 case 1:
-                    inventorySearch();
+                    inventorySearch(user);
                     break;
                 case 2:
                     break;
@@ -205,6 +213,8 @@ int main (void) {
             printf("Invalid Operation. Please try again.\n");
         }
     }
-    freeHistoryBooks(user->historyBook);
+    freeHistoryBooks(user->historyBook, rowCount);
+    memoryHandler(user->readingList);
+    free(user);
     return 0;
 }
