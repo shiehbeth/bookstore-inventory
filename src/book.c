@@ -18,7 +18,6 @@ book* createBook(char* title, char* author, int year, char *isbn, int rating) {
     strcpy(node->ISBN, isbn);
     node->rating = rating;
     node->nextBook = NULL;
-    // node->prevBook = NULL;
     return node;
 }
 

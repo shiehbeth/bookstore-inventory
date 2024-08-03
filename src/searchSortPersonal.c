@@ -1,17 +1,5 @@
 #include "../include/header.h"
 
-
-// method declaration
-int partition(book* input[], int low, int high, int (*compare)(book*, book*));
-void quicksort(book* input[], int low, int high, int (*compare)(book*, book*));
-void searchPersonal(book* input[], int numBooks);
-int binarySearchByTitle(book* input[], int left, int right, char* title);
-int binarySearchByAuthor(book* input[], int left, int right, char* author);
-int binarySearchByISBN(book* input[], int left, int right, char* isbn);
-int compareByTitle(book* a, book* b);
-int compareByAuthor(book* a, book* b);
-int compareByISBN(book* a, book* b);
-
 // Compare by title
 int compareByTitle(book* a, book* b) {
     return strcmp(a->bookTitle, b->bookTitle);
@@ -63,7 +51,7 @@ void quicksort(book* input[], int low, int high, int (*compare)(book*, book*)) {
 }
 
 // search personal method definition
-void searchPersonal(book* input[], int numBooks) {
+void searchPersonal(book** input, int numBooks) {
     // initialize index
     int index = -1;
     // prompt for search criteria
@@ -85,7 +73,7 @@ void searchPersonal(book* input[], int numBooks) {
         index = binarySearchByISBN(input, 0, numBooks-1, inputISBN);
     // search by title criteria
     } else if (strcmp(inputStr, "title") == 0) {
-        char inputTitle[20];
+        char inputTitle[256];
         printf("Searching by title - ");
         getchar();
         printf("Enter the title: ");

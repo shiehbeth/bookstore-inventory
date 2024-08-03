@@ -1,9 +1,7 @@
 # include "../include/header.h"
 
 // gcc -Wall -Wextra  -std=c99 -pedantic -fsanitize=address -g -lmysqlclient retrieveData.c  
-int const MAXLEN = 50;
-const int TOPFIVE = 5;
-int rowCount = 0;
+extern int rowCount;
 
 int convertToInt(char str[]) {
     int digit = 1;
@@ -24,14 +22,11 @@ void finish_with_error(MYSQL *con) {
 }
 
 void display(book **historyBooks, int rowCount) {
-    printf("=============================HISTORY BOOKS=============================\n");
-   
     for (int i = 0; i < rowCount; ++i) {
         printf("ISBN: %-15s Title: %-50s\n", historyBooks[i]->ISBN, historyBooks[i]->bookTitle);
         printf("Author: %-25s Rating: %-49d\n" ,historyBooks[i]->bookAuthor, historyBooks[i]->rating);
         printf("---------------------------------------------------------------------\n");
     }
-    printf("=====================================================================\n");
 }
 
 
@@ -121,8 +116,8 @@ void printWelcomeInfo() {
     printf(" - Add:    Find a book in the inventory.                  \n");
     printf(" - Show:   Display all books in your personal inventory.  \n");
     printf(" - Search:                                                \n");
-    printf("      -1. Personal Inventory                              \n");
-    printf("      -2. Book InventorySearch                            \n");
+    printf("      -1. Book InventorySearch                            \n");
+    printf("      -2. Personal Inventory                              \n");
     printf(" - Done:   Quit the book management system.               \n");
     printf("**********************************************************\n");
     printf("*               Happy Reading & Managing!                *\n");
@@ -168,53 +163,15 @@ User *initUser() {
 }
 
 void show(User *user) {
-    printf("**********************************************************\n");
-    printf("*                      Hello %s!                 *\n", user->name);
-    printf("**********************************************************\n");
+    printf("************************************************************************\n");
+    printf("*                             Hello %s!                        *\n", user->name);
+    printf("************************************************************************\n");
+     printf("=============================HISTORY BOOKS=============================\n");
     display(user->historyBook, rowCount);
     printf("==============================TOP 5 BOOKS===============================\n");
     displayBooks(user->TopFiveFavoriateBooks);
-    printf("========================================================================\n\n");
     printf("==========================Current Reading list==========================\n");
     displayBooks(user->readingList);
     printf("========================================================================\n\n");
 
-}
-int main (void) {
-    bool done = false;
-    char inputStr[MAXLEN];
-    printWelcomeInfo();
-    User *user = initUser();
-    
-    while (!done) {
-        printf("What would you like to do?\n");
-        scanf("%s", inputStr);
-        toLowercase(inputStr);
-        if (strcmp(inputStr, "search") == 0) {
-            //1.personalSearch()
-            //2.search()
-            printf("Enter 1 to book inventory, 2 to personal inventory\n");
-            int inputNum = 0;
-            scanf("%d", &inputNum);
-            switch (inputNum) {
-                case 1:
-                    inventorySearch(user);
-                    break;
-                case 2:
-                    break;
-                default:
-                    break;
-            }     
-        } else if (strcmp(inputStr, "show") == 0) {
-            show(user);
-        } else if (strcmp(inputStr, "done") == 0) {
-            done = true;
-        } else {
-            printf("Invalid Operation. Please try again.\n");
-        }
-    }
-    freeHistoryBooks(user->historyBook, rowCount);
-    memoryHandler(user->readingList);
-    free(user);
-    return 0;
 }

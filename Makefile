@@ -1,32 +1,38 @@
-# Compiler and flags
-CC = gcc
-CFLAGS = -I./include -Wall -g
 
-# Directories
-SDIR = src
-ODIR = obj
+# Compiler
+CC = gcc
+
+# Compiler flags
+CFLAGS = -I./include -Wall -Wextra -std=c99 -pedantic -fsanitize=address -g
+
+# Linker flags
+LDFLAGS = -lmysqlclient -fsanitize=address
+
+# Source and object files
+SRCDIR = src
+OBJDIR = obj
 
 # Source files
-SRC = main.c book.c bookQueue.c DLL.c inventory.c search.c user.c
-OBJ = $(addprefix $(ODIR)/, $(SRC:.c=.o))
+SRC = $(wildcard $(SRCDIR)/*.c)
+OBJ = $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRC))
 
 # Executable
-EXEC = main
+EXEC = Book
 
 # Default target
 all: $(EXEC)
 
 # Linking
 $(EXEC): $(OBJ)
-	$(CC) -o $@ $^
+	$(CC) $(OBJ) -o $@ $(LDFLAGS)
 
 # Ensure the object directory exists
 $(ODIR):
 	@mkdir -p $(ODIR)
 
-# Compiling source files
-$(ODIR)/%.o: $(SDIR)/%.c | $(ODIR)
-	$(CC) $(CFLAGS) -c $< -o $@
+# Compile each source file to an object file
+$(OBJDIR)/%.o: $(SRCDIR)/%.c
+	$(CC) $(CFLAGS) -c $< -o $@# Compiler and flags
 
 # Cleaning objects and executable
 clean:
