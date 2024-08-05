@@ -29,5 +29,6 @@ void freeHistoryBooks(book **historyBooks, int rowCount);
 User *initUser();
 void printWelcomeInfo();
 void show(User *user);
+void markAsRead(User *user);
 
 #endif

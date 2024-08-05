@@ -2,7 +2,7 @@
 extern int rowCount;
 
 // markAsRead method definition
-void markAsRead(*User user) {
+void markAsRead(User *user) {
     char inputISBN[20];
     // get user input for ISBN
     printf("Enter ISBN of the book read: ");
@@ -14,7 +14,7 @@ void markAsRead(*User user) {
 
     // traverse LL to find the book
     while(tmp != NULL) {
-        if (strcmp(tmp->ISBN, inputISBN)) {
+        if (strcmp(tmp->ISBN, inputISBN) == 0) {
             break;
         }
         prev = tmp;
@@ -28,7 +28,7 @@ void markAsRead(*User user) {
     }
 
     // if book is the first book, update head
-    if (prev = NULL) {
+    if (prev == NULL) {
         user->readingList->head = tmp->nextBook;
     }
     // if not the first book, update prev pointer
@@ -45,12 +45,10 @@ void markAsRead(*User user) {
         // add book to history book
         user->historyBook[rowCount] = tmp;
         rowCount++;
+        printf("Marked book as read. Added to history books.\n");
     }
     // book is already in history book
     else {
         printf("Book has already been marked as read previously.\n");
     }
-
-
-
 }

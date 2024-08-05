@@ -63,7 +63,7 @@ book **retrieveFakeUserInfo(LinkedList *top5Books) {
     rowCount = mysql_num_rows(result);
 
     // Create historyBooks
-    book **historyBooks = malloc(sizeof(book *) * rowCount);
+    book **historyBooks = malloc(sizeof(book *) * 100);
     // the index of the historyBooks
     int rowIndex = 0;
     // Iterate the result

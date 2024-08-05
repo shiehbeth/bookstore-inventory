@@ -15,7 +15,9 @@ int main (void) {
         printf("What would you like to do?\n");
         scanf("%s", inputStr);
         toLowercase(inputStr);
-        if (strcmp(inputStr, "search") == 0) {
+        if (strcmp(inputStr, "add") == 0) {
+            markAsRead(user);
+        } else if (strcmp(inputStr, "search") == 0) {
             printf("Enter 1 to book inventory, 2 to personal inventory\n");
             int inputNum = 0;
             scanf("%d", &inputNum);
