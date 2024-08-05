@@ -1,5 +1,6 @@
 # include "../include/header.h"
 
+// Hash method is using for calculating the hash value, in this case, we use a isbn as a key
 unsigned int hash(const char* key, int size) {
     unsigned int hash = 0;
     unsigned int i = 0;
@@ -9,7 +10,8 @@ unsigned int hash(const char* key, int size) {
     return hash % size;
 }
 
-void initalHashSet(HashSet *set, LinkedList *readingList) {
+// Initalize the Hashset, in this case, we will pass in a linkedlist, and save it to hashset by isbn
+void initialHashSet(HashSet *set, LinkedList *readingList) {
     book *curNode = readingList->head;
     while (curNode != NULL) {
         addElement(set, curNode->ISBN);
@@ -17,19 +19,24 @@ void initalHashSet(HashSet *set, LinkedList *readingList) {
     }
 }
 
+// create a hashset
 HashSet* createHashSet(LinkedList *readingList) {
+    // initialize the Hashset
     HashSet* set = (HashSet*)malloc(sizeof(HashSet));
     int size = readingList->size + 10;
     set->table = (Node**)malloc(sizeof(Node*) * size);
+    // initialize the hash table which in the hashset
     for (int i = 0; i < size; i++) {
         set->table[i] = NULL;
     }
     set->size = size;
-    initalHashSet(set, readingList);
+    initialHashSet(set, readingList);
     return set;
 }
 
+// add an element to the hashset
 void addElement(HashSet* set, const char* key) {
+    // Get the index of the table in the hashset, which is an array 
     unsigned int index = hash(key, set->size);
     Node* newNode = (Node*)malloc(sizeof(Node));
     newNode->data = (char *)malloc(sizeof(char) * (strlen(key) + 1));
@@ -39,6 +46,7 @@ void addElement(HashSet* set, const char* key) {
     set->table[index] = newNode;
 }
 
+// check if the element in the hashset or not
 int containsElement(HashSet* set, const char* key) {
     unsigned int index = hash(key, set->size);
     Node* node = set->table[index];
@@ -51,6 +59,7 @@ int containsElement(HashSet* set, const char* key) {
     return 0; // Not found
 }
 
+// remove a element in the hashset or not
 void removeElement(HashSet* set, const char* key) {
     unsigned int index = hash(key, set->size);
     Node* curNode = set->table[index];
@@ -75,6 +84,7 @@ void removeElement(HashSet* set, const char* key) {
     free(curNode);
 }
 
+// Free the hash set
 void freeHashSet(HashSet* set) {
     for (int i = 0; i < set->size; i++) {
         Node* node = set->table[i];

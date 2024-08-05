@@ -163,6 +163,5 @@ int binarySearchByISBN(book* input[], int left, int right, char* isbn) {
         }
         return binarySearchByISBN(input, mid+1, right, isbn);
     }
-
     return -1;
 }

@@ -21,6 +21,7 @@ book* createBook(char* title, char* author, int year, char *isbn, int rating) {
     return node;
 }
 
+// Handle the memory
 void freeBooks(book* head) {
     book* tmp;
     while (head != NULL) {
