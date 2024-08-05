@@ -17,9 +17,11 @@ int compareByISBN(book* a, book* b) {
 
 // partition method definition
 int partition(book* input[], int low, int high, int (*compare)(book*, book*)) {
+    // initialize variables
     int midpoint = low + (high - low) / 2;
     book* pivot = input[midpoint];
     bool done = false;
+    // compare values to the pivot
     while (!done) {
         while (compare(input[low], pivot) < 0) {
             low += 1;
@@ -30,6 +32,7 @@ int partition(book* input[], int low, int high, int (*compare)(book*, book*)) {
         if (low >= high) {
             done = true;
         } else {
+            // swap the values
             book* tmp = input[low];
             input[low] = input[high];
             input[high] = tmp;
@@ -45,7 +48,9 @@ void quicksort(book* input[], int low, int high, int (*compare)(book*, book*)) {
     if (low >= high) {
         return;
     }
+    // call partition
     int lowEnd = partition(input, low, high, compare);
+    // recursively call quicksort
     quicksort(input, low, lowEnd, compare);
     quicksort(input, lowEnd + 1, high, compare);
 }
@@ -123,15 +128,16 @@ void searchPersonal(book** input, int numBooks) {
 int binarySearchByTitle(book* input[], int left, int right, char* title) {
     if (right >= left) {
         int mid = left + (right - left) / 2;
+        // check if theres a match
         if (strcmp(input[mid]->bookTitle, title) == 0) {
             return mid;
-        }
+        } // recursively call binary search
         if (strcmp(input[mid]->bookTitle, title) > 0) {
             return binarySearchByTitle(input, left, mid-1, title);
         }
+        // recursively call binary search
         return binarySearchByTitle(input, mid+1, right, title);
     }
-
     return -1;
 }
 
@@ -139,12 +145,14 @@ int binarySearchByTitle(book* input[], int left, int right, char* title) {
 int binarySearchByAuthor(book* input[], int left, int right, char* author) {
     if (right >= left) {
         int mid = left + (right - left) / 2;
+        // check if theres a match
         if (strcmp(input[mid]->bookAuthor, author) == 0) {
             return mid;
-        }
+        } // recursively call binary search
         if (strcmp(input[mid]->bookAuthor, author) > 0) {
             return binarySearchByAuthor(input, left, mid-1, author);
         }
+        // recursively call binary search
         return binarySearchByAuthor(input, mid+1, right, author);
     }
 
@@ -155,13 +163,15 @@ int binarySearchByAuthor(book* input[], int left, int right, char* author) {
 int binarySearchByISBN(book* input[], int left, int right, char* isbn) {
     if (right >= left) {
         int mid = left + (right - left) / 2;
+        // check if theres a match
         if (strcmp(input[mid]->ISBN, isbn) == 0) {
             return mid;
-        }
+        } // recursively call binary search
         if (strcmp(input[mid]->ISBN, isbn) > 0) {
             return binarySearchByISBN(input, left, mid-1, isbn);
-        }
+        } // recursively call binary search
         return binarySearchByISBN(input, mid+1, right, isbn);
     }
+
     return -1;
 }
