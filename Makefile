@@ -32,7 +32,7 @@ $(ODIR):
 
 # Compile each source file to an object file
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
-	$(CC) $(CFLAGS) -c $< -o $@# Compiler and flags
+	$(CC) $(CFLAGS) -c $< -o $@
 
 # Cleaning objects and executable
 clean:

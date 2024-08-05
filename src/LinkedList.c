@@ -1,11 +1,5 @@
-// # include "../include/book.h"
-// # include <stdio.h>
-// # include <stdlib.h>
-// // # include "../include/linkedList.h"
 # include "../include/header.h"
-// typedef struct LinkedList_t {
-//     book *head;
-// }LLT;
+
 int count = 0;
 void addBook(LinkedList *history, book *newBook) {
     if (history == NULL) {
@@ -55,10 +49,6 @@ int lenOfbooks(LinkedList *booklist) {
     return i;
 }
 
-// void insertFront(LinkedList* booklist, book *newBook) {
-
-// }
-
 void updateList(LinkedList *booklist) {
     book *curNode = booklist->head;
     book *tmp = NULL;
@@ -70,11 +60,6 @@ void updateList(LinkedList *booklist) {
     }
     tmp->nextBook = NULL;
     booklist->tail = tmp;
-    // while (curNode != NULL) {
-    //     tmp = curNode;
-    //     curNode = curNode->nextBook;
-    //     free(tmp);
-    // }
 }
 
 void insertByRating(LinkedList *booklist, book* newBook) {
