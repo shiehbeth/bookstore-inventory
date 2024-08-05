@@ -14,7 +14,7 @@ void markAsRead(User *user) {
 
     // traverse LL to find the book
     while(tmp != NULL) {
-        if (strcmp(tmp->ISBN, inputISBN)) {
+        if (strcmp(tmp->ISBN, inputISBN) == 0) {
             break;
         }
         prev = tmp;
