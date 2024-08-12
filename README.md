@@ -49,7 +49,9 @@ bookstore_inventory/
 ```
 
 ## How to Use:
-Compile using Makefile, and run the book file. Use the command line to input one of four commands: Add, Show, Search, or Done.
+Login to mySQL '-u root -p password'. The password is included in the program. Compile using Makefile by running the command 'make re', and run the ./Book file.
+
+Use the command line to input one of four commands: Add, Show, Search, or Done.
     - Add: Finds a book in the inventory and adds to the user's collection
     - Show: Displays books in the users collections
     - Search: Provides searching functionality
