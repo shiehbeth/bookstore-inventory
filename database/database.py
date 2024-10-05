@@ -3,7 +3,7 @@ from sqlalchemy import create_engine
 
 # Replace with your MySQL credentials
 username = 'root'
-password = 'Shirley*!(*!!'
+password = ''
 host = '127.0.0.1'  # localhost' or '127.0.0.1'
 port = '3306'  # default MySQL port
 database = 'BOOKDB'
